@@ -1,0 +1,14 @@
+├─ controllers
+│  └─ certificate.controller.js
+├─ middlewares
+│  └─ index.js
+├─ models
+│  └─ certificate.model.js
+├─ routes
+│  └─ certificate.routes.js
+├─ services
+│  ├─ certificate.service.js
+│  └─ index.js
+├─ db.js
+└─ index.js
+  
