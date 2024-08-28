@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const dbUri ='mongodb+srv://admin:admin123@cluster0.xadr5.mongodb.net/portfolio_db?retryWrites=true&w=majority&appName=Cluster0'
+const dbUri = process.env.MONGODB_URI;
 
-mongoose.set('strictQuery', false)
+mongoose.set('strictQuery', false);
 
 module.exports = () => {
-    return mongoose.connect(dbUri)
-}
+    return mongoose.connect(dbUri);
+};

@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config(); // Load environment variables from .env file
+
 const app = express();
 
 // Local Imports
@@ -11,7 +13,7 @@ const resumeRoutes = require('./routes/resume.routes');
 
 // Configuration
 const corsOptions = {
-  origin: 'http://localhost:4200',
+  origin: ['http://localhost:4200','https://portfolio-gxgyjbfx0-amerasaads-projects.vercel.app/'],
   optionsSuccessStatus: 200,
 };
 
