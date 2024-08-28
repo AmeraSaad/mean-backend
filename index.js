@@ -1,23 +1,23 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+const FRONTEND = process.env.FRONTEND || 'http://localhost:4200';
 
 // Local Imports
 const connectDb = require('./db.js');
 const certificateRoutes = require('./routes/certificate.routes');
 const projectRoutes = require('./routes/project.routes');
 const resumeRoutes = require('./routes/resume.routes');
-// const errorMiddleware = require('./middleware/errorMiddleware');
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 // Configuration
 const corsOptions = {
-  origin: ['http://localhost:4200','https://portfolio-gxgyjbfx0-amerasaads-projects.vercel.app/'],
+  origin: FRONTEND,
   optionsSuccessStatus: 200,
 };
-
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors(corsOptions));
@@ -27,7 +27,7 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/resume', resumeRoutes);
 
 // Global Error Handling Middleware (if implemented)
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 // Database Connection and Server Startup
 connectDb()
