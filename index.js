@@ -15,7 +15,7 @@ const errorMiddleware = require('./middleware/errorMiddleware');
 
 // Configuration
 const corsOptions = {
-  origin: FRONTEND,
+  origin: ['http://localhost:4200'],
   optionsSuccessStatus: 200,
 };
 
