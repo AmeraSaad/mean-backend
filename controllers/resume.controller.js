@@ -1,19 +1,9 @@
 const Resume = require('../models/resume.model');
 
-// Get all resumes
-exports.getAllResumes = async (req, res, next) => {
+// Get the resume (assuming there's only one)
+exports.getResume = async (req, res, next) => {
     try {
-        const resumes = await Resume.find();
-        res.json(resumes);
-    } catch (err) {
-        next(err);
-    }
-};
-
-// Get a resume by ID
-exports.getResumeById = async (req, res, next) => {
-    try {
-        const resume = await Resume.findById(req.params.id);
+        const resume = await Resume.findOne(); // Fetch the first document
         if (resume) {
             res.json(resume);
         } else {
@@ -24,53 +14,47 @@ exports.getResumeById = async (req, res, next) => {
     }
 };
 
-// Create a new resume
-exports.createResume = async (req, res, next) => {
+// Create or update the resume
+exports.createOrUpdateResume = async (req, res, next) => {
     const { name, title, summary, experience, education, skills } = req.body;
-    
-    const newResume = new Resume({
-        name,
-        title,
-        summary,
-        experience,
-        education,
-        skills,
-    });
 
     try {
-        const savedResume = await newResume.save();
-        res.status(201).json(savedResume);
-    } catch (err) {
-        next(err);
-    }
-};
+        const resume = await Resume.findOne();
+        if (resume) {
+            // Update the existing resume
+            resume.name = name;
+            resume.title = title;
+            resume.summary = summary;
+            resume.experience = experience;
+            resume.education = education;
+            resume.skills = skills;
 
-// Update an existing resume
-exports.updateResume = async (req, res, next) => {
-    const { name, title, summary, experience, education, skills } = req.body;
-    
-    try {
-        const updatedResume = await Resume.findByIdAndUpdate(
-            req.params.id, 
-            { name, title, summary, experience, education, skills }, 
-            { new: true, runValidators: true }
-        );
-
-        if (updatedResume) {
+            const updatedResume = await resume.save();
             res.json(updatedResume);
         } else {
-            res.status(404).send({ message: 'Resume not found' });
+            // Create a new resume
+            const newResume = new Resume({
+                name,
+                title,
+                summary,
+                experience,
+                education,
+                skills,
+            });
+
+            const savedResume = await newResume.save();
+            res.status(201).json(savedResume);
         }
     } catch (err) {
         next(err);
     }
 };
 
-// Delete a resume
+// Delete the resume
 exports.deleteResume = async (req, res, next) => {
     try {
-        const deletedResume = await Resume.findByIdAndDelete(req.params.id);
-        if (deletedResume) {
+        const resume = await Resume.findOneAndDelete();
+        if (resume) {
             res.json({ message: 'Resume deleted successfully' });
         } else {
             res.status(404).send({ message: 'Resume not found' });

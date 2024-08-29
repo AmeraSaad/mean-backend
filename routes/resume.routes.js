@@ -2,10 +2,15 @@ const express = require('express');
 const router = express.Router();
 const resumeController = require('../controllers/resume.controller');
 
-router.get('/', resumeController.getAllResumes);
-router.get('/:id', resumeController.getResumeById);
-router.post('/', resumeController.createResume);
-router.put('/:id', resumeController.updateResume);
-router.delete('/:id', resumeController.deleteResume);
+// GET the resume
+router.get('/', resumeController.getResume);
+
+// POST or PUT to create or update the resume
+router.post('/', resumeController.createOrUpdateResume);
+router.put('/', resumeController.createOrUpdateResume);
+
+// DELETE the resume
+router.delete('/', resumeController.deleteResume);
 
 module.exports = router;
+
